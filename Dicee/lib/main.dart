@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'dart:math';
 void main() {
   runApp(const MyApp());
 }
@@ -18,7 +18,6 @@ class MyApp extends StatelessWidget {
         backgroundColor: Colors.red,
         centerTitle: true,
       ),
-      
       body: Column(
         children: [
           const Divider(
@@ -27,39 +26,62 @@ class MyApp extends StatelessWidget {
             color: Colors.white,
           ),
           Expanded(
-              child: DicePage(),),
+            child: DicePage(),
+          ),
         ],
       ),
     ));
   }
 }
 
-class DicePage extends StatelessWidget {
+
+
+class DicePage extends StatefulWidget {
+  const DicePage({super.key});
+
+  @override
+  State<DicePage> createState() => _DicePageState();
+}
+
+class _DicePageState extends State<DicePage> {
+  int leftDiceNumber = 1;
+  int rightDiceNumber = 1;
+
+  void changeDiceFace() {
+    setState(() {
+      leftDiceNumber = Random().nextInt(6) + 1;
+      rightDiceNumber = Random().nextInt(6) + 1;
+
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Center(
-      child:
-      Row(
+      child: Row(
         children: [
-
           Expanded(
             flex: 1,
             child: TextButton(
               onPressed: () {
-                print('Left button was clicked');
+                setState(() {
+                  changeDiceFace();
+                });
               },
               child: Image(
-                image: AssetImage('images/dice6.png'),
-
+                image: AssetImage('images/dice$leftDiceNumber.png'),
               ),
             ),
           ),
           Expanded(
             flex: 1,
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  changeDiceFace();
+                });
+              },
               child: Image(
-                image: AssetImage('images/dice1.png'),
+                image: AssetImage('images/dice$rightDiceNumber.png'),
               ),
             ),
           ),
