@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:quizzler/quiz_brain.dart';
+import 'quiz_brain.dart';
+
+QuizBrain quizBrain = QuizBrain();
 
 void main() {
   runApp(const QuizzlerApp());
@@ -31,6 +35,18 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  List<Icon> scoreKeeper = [];
+
+
+
+  int questionNumber = 0;
+
+  void nextNumber(){
+    setState(() {
+      questionNumber+=1;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -42,7 +58,7 @@ class _QuizPageState extends State<QuizPage> {
             flex: 5,
             child: Center(
               child: Text(
-                'This is where the question text will go',
+                quizBrain.questionBank[questionNumber].questionText,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white,
@@ -57,16 +73,31 @@ class _QuizPageState extends State<QuizPage> {
               child: SizedBox(
                 width: double.infinity,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    bool correctAnswer = quizBrain.questionBank[questionNumber].questionAnswer;
+                    if(correctAnswer == true){
+                      print('correct');
+                    }else{
+                      print('wrong');
+                    }
+                    setState(() {
+                      nextNumber();
+                    });
+                  },
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.green,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero,
+                    ),
                   ),
                   child: const Text(
                     'True',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
+
                     ),
+
                   ),
                 ),
               ),
@@ -78,9 +109,22 @@ class _QuizPageState extends State<QuizPage> {
               child: SizedBox(
                 width: double.infinity,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    bool correctAnswer = quizBrain.questionBank[questionNumber].questionAnswer;
+                    if(correctAnswer == false){
+                      print('correct');
+                    }else{
+                      print('wrong');
+                    }
+                    setState(() {
+                      nextNumber();
+                    });
+                  },
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.red,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero,
+                    ),
                   ),
                   child: const Text(
                     'False',
@@ -93,47 +137,12 @@ class _QuizPageState extends State<QuizPage> {
               ),
             ),
           ),
-
+          Row(
+            children: scoreKeeper,
+          )
         ],
       ),
     );
   }
 }
 
-// class QuizPage extends StatelessWidget {
-//   const QuizPage({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         body: Center(
-//             child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: [
-//           Text('This is where your question text will go',
-//             style: TextStyle(
-//               color: Colors.white,
-//               fontSize: 23,
-//
-//             ),
-//           ),
-//
-//           TextButton(
-//               onPressed: null,
-//               child: Text(
-//                 'True',
-//                 style: TextStyle(
-//                   backgroundColor: Colors.red,
-//                 ),
-//               )),
-//           TextButton(
-//               onPressed: null,
-//               child: Text(
-//                 'False',
-//                 style: TextStyle(
-//                   backgroundColor: Colors.red,
-//                 ),
-//               )),
-//         ])));
-//   }
-// }
